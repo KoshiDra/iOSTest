@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script>
+
+        function documentExecCommand()
+        {
+            console.log("document.execCommand : start");
+
+            const imgUrl = document.querySelector('#img_url').src;
+
+            const tmpInput = document.createElement('input');
+            tmpInput.setAttribute('type', 'text');
+            tmpInput.setAttribute('contenteditable', 'true');
+
+            const parent = document.querySelector('#parent_div');
+            parent.appendChild(tmpInput);
+
+            tmpInput.value = imgUrl;
+
+            tmpInput.focus();
+            tmpInput.setSelectionRange(0, 999999);
+            const ret = document.execCommand('copy');
+
+            console.log("document.execCommand [ret] : " + ret);
+
+            tmpInput.remove();
+
+            console.log("document.execCommand : end");
+        }
+
+        function clipboardAPI()
+        {
+            console.log("navigator.clipboard.writeText : start");
+
+            const imgUrl = document.querySelector('#img_url').src;
+
+            navigator.clipboard.writeText(imgUrl);
+
+            console.log("navigator.clipboard.writeText : end");
+        }
+
+    </script>
+
+</head>
+<body>
+    <div>
+        <img id="img_url" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRf7YNQZBmzXDGBEl6RtYxCIZlC4JUGhHjjbw&usqp=CAU" />
+    </div>
+    <div>
+        <span>下記ボタン押下で↑の画像URLがクリップボードにコピーされるはずです！</span>
+    </div>
+    <div id="parent_div">
+        <div>
+            <input type="button" value="コピー1" onclick="documentExecCommand()">
+        </div>
+        <div>
+            <input type="button" value="コピー2" onclick="clipboardAPI()">
+        </div>
+    </div>
+</body>
+</html>
